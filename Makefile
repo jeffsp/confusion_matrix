@@ -20,7 +20,6 @@ waf:
 .PHONY : \
 check
 check:
-	#./build/$(BUILD)/test_confusion_matrix
 	./build/$(BUILD)/confusion_matrix -h
 	./build/$(BUILD)/confusion_matrix --help
 	./build/$(BUILD)/confusion_matrix --verbose
@@ -31,6 +30,7 @@ check:
 	./build/$(BUILD)/confusion_matrix -v -c 100 --input-filename data3.txt
 	-./build/$(BUILD)/confusion_matrix --blah
 	#./build/$(BUILD)/confusion_matrix < data.txt
+	./build/$(BUILD)/test_confusion_matrix
 
 .PHONY : \
 clean
