@@ -88,6 +88,32 @@ int main (int argc, char **argv)
             clog << "input_filename\t" << args.input_filename << endl;
         }
 
+        conditions conditions;
+
+        if (args.input_filename.empty ())
+        {
+            clog << "Reading stdin" << endl;
+            conditions = read_conditions (cin);
+        }
+        else
+        {
+            clog << "Opening " << args.input_filename << endl;
+            ifstream ifs (args.input_filename);
+            if (!ifs)
+                throw runtime_error ("Could not open file for reading");
+            conditions = read_conditions (ifs);
+        }
+
+        if (args.verbose)
+            clog << conditions.size () << " conditions read" << endl;
+
+        confusion_matrix cm = get_confusion_matrix (conditions, args.class_number);
+
+        if (args.verbose)
+            clog << cm;
+
+        cout << cm.F1 () << endl;
+
         return 0;
     }
     catch (const exception &e)
