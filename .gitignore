@@ -1,2 +1,4 @@
+.ipynb_checkpoints/
 .lock-waf_linux2_build
 build/
+test.txt
