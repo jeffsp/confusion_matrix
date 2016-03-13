@@ -25,10 +25,10 @@ void test1 ()
 void test2 ()
 {
     confusion_matrix cm;
-    cm.update (1, 1);
+    cm.update (0, 0);
     cm.update (0, 1);
     cm.update (1, 0);
-    cm.update (0, 0);
+    cm.update (1, 1);
     verify (cm.recall () == 0.5);
     verify (cm.precision () == 0.5);
     verify (cm.fallout () == 0.5);
@@ -68,7 +68,7 @@ void test4 ()
     ss << "2 1" << endl;
     ss << "1 2" << endl;
     // oops, missing prediction
-    ss << "2" << endl;
+    ss << "2 " << endl;
     bool caught = false;
     try { conditions conditions = read_conditions (ss); }
     catch (const exception &e) {
