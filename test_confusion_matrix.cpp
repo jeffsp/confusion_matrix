@@ -16,7 +16,10 @@ void test1 ()
     const size_t N = 1000;
     for (size_t i = 0; i < N; ++i)
         cm.update (rand () % 2, rand () % 2);
-    clog << cm << endl;
+    verify (cm.true_positives () > 200 && cm.true_positives () < 300);
+    verify (cm.true_negatives () > 200 && cm.true_negatives () < 300);
+    verify (cm.false_positives () > 200 && cm.false_positives () < 300);
+    verify (cm.false_negatives () > 200 && cm.false_negatives () < 300);
 }
 
 void test2 ()
@@ -26,15 +29,19 @@ void test2 ()
     cm.update (0, 1);
     cm.update (1, 0);
     cm.update (0, 0);
-    clog << cm << endl;
+    verify (cm.recall () == 0.5);
+    verify (cm.precision () == 0.5);
+    verify (cm.fallout () == 0.5);
+    verify (cm.accuracy () == 0.5);
+    verify (cm.F1 () == 0.5);
+    verify (cm.MCC () == 0.0);
     cm.update (1, 1);
-    clog << cm << endl;
-    cm.update (0, 1);
-    clog << cm << endl;
-    cm.update (1, 0);
-    clog << cm << endl;
-    cm.update (0, 0);
-    clog << cm << endl;
+    verify (cm.recall () != 0.5);
+    verify (cm.precision () != 0.5);
+    verify (cm.fallout () == 0.5);
+    verify (cm.accuracy () != 0.5);
+    verify (cm.F1 () != 0.5);
+    verify (cm.MCC () != 0.0);
 }
 
 void test3 ()
@@ -46,7 +53,12 @@ void test3 ()
     ss << "2 2" << endl;
     conditions conditions = read_conditions (ss);
     confusion_matrix cm = get_confusion_matrix (conditions, 1);
-    clog << cm << endl;
+    verify (cm.recall () == 0.5);
+    verify (cm.precision () == 0.5);
+    verify (cm.fallout () == 0.5);
+    verify (cm.accuracy () == 0.5);
+    verify (cm.F1 () == 0.5);
+    verify (cm.MCC () == 0.0);
 }
 
 void test4 ()

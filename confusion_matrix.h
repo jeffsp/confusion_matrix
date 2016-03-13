@@ -25,6 +25,11 @@ class confusion_matrix
         , fn (0.0)
     {
     }
+    // Matrix count access functions
+    size_t true_positives () const { return static_cast<size_t> (tp); }
+    size_t true_negatives () const { return static_cast<size_t> (tn); }
+    size_t false_positives () const { return static_cast<size_t> (fp); }
+    size_t false_negatives () const { return static_cast<size_t> (fn); }
     /// @brief Update the matrix
     /// @param present Truth value. True if class is present.
     /// @param prediction Prediction value. True if we predicted that the class is present.
@@ -39,36 +44,30 @@ class confusion_matrix
     double recall () const { return true_positive_rate (); }
     double sensitivity () const { return true_positive_rate (); }
     double true_positive_rate () const { return tp / (tp + fn); }
-
     double specificity () const { return true_negative_rate (); }
     double true_negative_rate () const { return tn / (fp + tn); }
-
     double precision () const { return positive_predictive_value (); }
     double positive_predictive_value () const { return tp / (tp + fp); }
-
     double negative_predictive_value () const { return tn / (tn + fn); }
-
-    double fall_out () const { return false_positive_rate (); }
+    double fallout () const { return false_positive_rate (); }
     double false_positive_rate () const { return fp / (fp + tn); }
-
     double false_discovery_rate () const { return fp / (fp + tp); }
-
     double miss_rate () const { return false_negative_rate (); }
     double false_negative_rate () const { return fn / (fn + tp); }
-
     double accuracy () const { return (tp + tn) / (tp + tn + fp + fn); }
 
     // The harmonic mean of precision and sensitivity
     double F1 () const { return (2.0 * tp) / (2.0 * tp + fp + fn); }
 
+    // The correlation coefficient between the observed and predicted classifications
     double MCC () const { return (tp * tn - fp * fn) / sqrt ((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)); }
 
     friend std::ostream& operator<< (std::ostream &s, const confusion_matrix &cm)
     {
-        s << "true_positives " << static_cast<size_t> (cm.tp) << std::endl;
-        s << "true_negatives " << static_cast<size_t> (cm.tn) << std::endl;
-        s << "false_positives " << static_cast<size_t> (cm.fp) << std::endl;
-        s << "false_negatives " << static_cast<size_t> (cm.fn) << std::endl;
+        s << "true_positives " << cm.true_positives () << std::endl;
+        s << "true_negatives " << cm.true_negatives () << std::endl;
+        s << "false_positives " << cm.false_positives () << std::endl;
+        s << "false_negatives " << cm.false_negatives () << std::endl;
         s << "recall " << cm.recall () << std::endl;
         s << "sensitivity " << cm.sensitivity () << std::endl;
         s << "true_positive_rate " << cm.true_positive_rate () << std::endl;
@@ -77,7 +76,7 @@ class confusion_matrix
         s << "precision " << cm.precision () << std::endl;
         s << "positive_predictive_value " << cm.positive_predictive_value () << std::endl;
         s << "negative_predictive_value " << cm.negative_predictive_value () << std::endl;
-        s << "fall_out " << cm.fall_out () << std::endl;
+        s << "fallout " << cm.fallout () << std::endl;
         s << "false_positive_rate " << cm.false_positive_rate () << std::endl;
         s << "false_discovery_rate " << cm.false_discovery_rate () << std::endl;
         s << "miss_rate " << cm.miss_rate () << std::endl;
