@@ -20,16 +20,15 @@ waf:
 .PHONY : \
 check
 check:
-	./build/$(BUILD)/confusion_matrix -h
-	./build/$(BUILD)/confusion_matrix --help
-	./build/$(BUILD)/confusion_matrix --verbose
-	./build/$(BUILD)/confusion_matrix -v -c 9
-	./build/$(BUILD)/confusion_matrix -v --class-number 8
-	./build/$(BUILD)/confusion_matrix -v -f data1.txt
-	./build/$(BUILD)/confusion_matrix -v --input-filename data2.txt
-	./build/$(BUILD)/confusion_matrix -v -c 100 --input-filename data3.txt
-	-./build/$(BUILD)/confusion_matrix --blah
-	#./build/$(BUILD)/confusion_matrix < data.txt
+	#./build/$(BUILD)/confusion_matrix -h
+	#./build/$(BUILD)/confusion_matrix --help
+	#./build/$(BUILD)/confusion_matrix --verbose < /dev/null
+	#./build/$(BUILD)/confusion_matrix -v -c 9 < /dev/null
+	#./build/$(BUILD)/confusion_matrix -v --class-number 8 < /dev/null
+	#./build/$(BUILD)/confusion_matrix -v -f /dev/null
+	#./build/$(BUILD)/confusion_matrix -v --input-filename /dev/null
+	#./build/$(BUILD)/confusion_matrix -v -c 100 --input-filename /dev/null
+	#-./build/$(BUILD)/confusion_matrix --blah < /dev/null
 	./build/$(BUILD)/test_confusion_matrix
 
 .PHONY : \
