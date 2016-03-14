@@ -78,6 +78,60 @@ void test4 ()
     verify (caught);
 }
 
+void test5 ()
+{
+    conditions conditions;
+    confusion_matrix cm = get_confusion_matrix (conditions, 3);
+    verify (cm.true_positives () == 0);
+    verify (cm.true_negatives () == 0);
+    verify (cm.false_positives () == 0);
+    verify (cm.false_negatives () == 0);
+    {
+    stringstream ss;
+    ss << "3 3" << endl;
+    conditions = read_conditions (ss);
+    cm = get_confusion_matrix (conditions, 3);
+    verify (cm.true_positives () == 1);
+    verify (cm.true_negatives () == 0);
+    verify (cm.false_positives () == 0);
+    verify (cm.false_negatives () == 0);
+    }
+    {
+    stringstream ss;
+    ss << "1 0" << endl;
+    ss << "2 5" << endl;
+    conditions = read_conditions (ss);
+    cm = get_confusion_matrix (conditions, 3);
+    verify (cm.true_positives () == 0);
+    verify (cm.true_negatives () == 2);
+    verify (cm.false_positives () == 0);
+    verify (cm.false_negatives () == 0);
+    }
+    {
+    stringstream ss;
+    ss << "1 3" << endl;
+    ss << "2 3" << endl;
+    ss << "4 3" << endl;
+    conditions = read_conditions (ss);
+    cm = get_confusion_matrix (conditions, 3);
+    verify (cm.true_positives () == 0);
+    verify (cm.true_negatives () == 0);
+    verify (cm.false_positives () == 3);
+    verify (cm.false_negatives () == 0);
+    }
+    {
+    stringstream ss;
+    ss << "3 0" << endl;
+    ss << "3 2" << endl;
+    conditions = read_conditions (ss);
+    cm = get_confusion_matrix (conditions, 3);
+    verify (cm.true_positives () == 0);
+    verify (cm.true_negatives () == 0);
+    verify (cm.false_positives () == 0);
+    verify (cm.false_negatives () == 2);
+    }
+}
+
 int main (int argc, char **argv)
 {
     try
@@ -86,6 +140,7 @@ int main (int argc, char **argv)
         test2 ();
         test3 ();
         test4 ();
+        test5 ();
         clog << "Success" << endl;
 
         return 0;
