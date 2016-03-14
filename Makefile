@@ -20,16 +20,21 @@ waf:
 .PHONY : \
 check
 check:
-	#./build/$(BUILD)/confusion_matrix -h
-	#./build/$(BUILD)/confusion_matrix --help
-	#./build/$(BUILD)/confusion_matrix --verbose < /dev/null
-	#./build/$(BUILD)/confusion_matrix -v -c 9 < /dev/null
-	#./build/$(BUILD)/confusion_matrix -v --class-number 8 < /dev/null
-	#./build/$(BUILD)/confusion_matrix -v -f /dev/null
-	#./build/$(BUILD)/confusion_matrix -v --input-filename /dev/null
-	#./build/$(BUILD)/confusion_matrix -v -c 100 --input-filename /dev/null
-	#-./build/$(BUILD)/confusion_matrix --blah < /dev/null
 	./build/$(BUILD)/test_confusion_matrix
+
+.PHONY : \
+cmd_line_check
+cmd_line_check:
+	./build/$(BUILD)/confusion_matrix -h
+	./build/$(BUILD)/confusion_matrix --help
+	./build/$(BUILD)/confusion_matrix --verbose < /dev/null
+	./build/$(BUILD)/confusion_matrix -v -c 9 < /dev/null
+	./build/$(BUILD)/confusion_matrix -v --class-number 8 < /dev/null
+	./build/$(BUILD)/confusion_matrix -v -f /dev/null
+	./build/$(BUILD)/confusion_matrix -v --input-filename /dev/null
+	./build/$(BUILD)/confusion_matrix -v -c 100 --input-filename /dev/null
+	-./build/$(BUILD)/confusion_matrix --blah < /dev/null
+	-./build/$(BUILD)/confusion_matrix filename.txt
 
 .PHONY : \
 clean
