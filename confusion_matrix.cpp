@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <vector>
 
 using namespace std;
 
@@ -21,12 +22,12 @@ struct cmd_line_args
     bool help;
     bool verbose;
     size_t class_number;
-    string input_filename;
+    vector<string> input_filenames;
 };
 
 cmd_line_args get_args (int argc, char **argv)
 {
-    cmd_line_args args = { false, false, 0, string() };
+    cmd_line_args args = { false, false, 0, vector<string> () };
     while (1)
     {
         int option_index = 0;
@@ -34,11 +35,10 @@ cmd_line_args get_args (int argc, char **argv)
             {"help", no_argument, 0,  'h' },
             {"verbose", no_argument, 0,  'v' },
             {"class-number", required_argument, 0,  'c' },
-            {"input-filename", required_argument, 0,  'f' },
             {0,      0,           0,  0 }
         };
 
-        int c = getopt_long(argc, argv, "hvc:f:", long_options, &option_index);
+        int c = getopt_long(argc, argv, "hvc:", long_options, &option_index);
         if (c == -1)
             break;
 
@@ -64,11 +64,14 @@ cmd_line_args get_args (int argc, char **argv)
             }
             case 'v': args.verbose = true; break;
             case 'c': args.class_number = atol (optarg); break;
-            case 'f': args.input_filename = optarg; break;
         }
     }
-    if (optind != argc)
-        throw runtime_error ("Unknown extra arguments");
+    // Save off filenames on command line
+    while (optind < argc)
+    {
+        args.input_filenames.push_back (argv[optind]);
+        ++optind;
+    }
 
     return args;
 }
@@ -85,28 +88,40 @@ int main (int argc, char **argv)
 
         if (args.verbose)
         {
-            clog << "help\t" << args.help << endl;
-            clog << "verbose\t" << args.verbose << endl;
             clog << "class_number\t" << args.class_number << endl;
-            clog << "input_filename\t'" << args.input_filename << "'" << endl;
+            clog << "input_filenames";
+            if (args.input_filenames.empty ())
+                clog << "\tnone" << endl;
+            else
+            {
+                clog << endl;
+                for (size_t i = 0; i < args.input_filenames.size (); ++i)
+                    clog << "\t'" << args.input_filenames[i]  << "'" << endl;
+            }
         }
 
         conditions conditions;
 
-        if (args.input_filename.empty ())
+        if (args.input_filenames.empty ())
         {
             if (args.verbose)
-                clog << "Reading stdin" << endl;
+                clog << "reading stdin" << endl;
             conditions = read_conditions (cin);
         }
         else
         {
-            if (args.verbose)
-                clog << "Opening " << args.input_filename << endl;
-            ifstream ifs (args.input_filename);
-            if (!ifs)
-                throw runtime_error ("Could not open file for reading");
-            conditions = read_conditions (ifs);
+            for (auto fn : args.input_filenames)
+            {
+                if (args.verbose)
+                    clog << "opening " << fn << endl;
+                ifstream ifs (fn);
+                if (!ifs)
+                    throw runtime_error ("Could not open file for reading");
+                // Read into tmp
+                ::conditions tmp = read_conditions (ifs);
+                // Append to conditions
+                conditions.insert (conditions.end(), tmp.begin(), tmp.end());
+            }
         }
 
         if (args.verbose)
