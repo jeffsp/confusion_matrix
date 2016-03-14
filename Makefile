@@ -1,4 +1,4 @@
-# Makefile for C++ minimal waf wscript
+# Makefile for confusion matrix
 #
 # jeffsp@gmail.com
 #
@@ -16,11 +16,12 @@ waf
 waf:
 	waf configure
 	waf
+	$(MAKE) -C tests waf
 
 .PHONY : \
 check
 check:
-	./build/$(BUILD)/test_confusion_matrix
+	$(MAKE) -C tests check
 
 .PHONY : \
 cmd_line_check
@@ -35,3 +36,4 @@ cmd_line_check:
 clean
 clean:
 	waf clean
+	$(MAKE) -C tests clean

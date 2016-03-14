@@ -4,7 +4,7 @@
 //
 // Sat Mar 12 12:04:17 CST 2016
 
-#include "confusion_matrix.h"
+#include "../confusion_matrix.h"
 #include "verify.h"
 #include <iostream>
 
