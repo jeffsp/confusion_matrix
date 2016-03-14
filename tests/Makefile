@@ -19,7 +19,7 @@ waf:
 
 .PHONY : \
 check
-check:
+check: waf
 	./build/$(BUILD)/test_confusion_matrix
 
 .PHONY : \

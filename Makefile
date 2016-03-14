@@ -20,7 +20,7 @@ waf:
 
 .PHONY : \
 check
-check:
+check: waf
 	$(MAKE) -C tests check
 
 .PHONY : \
