@@ -37,3 +37,8 @@ clean
 clean:
 	waf clean
 	$(MAKE) -C tests clean
+
+.PHONY : \
+install
+install:
+	waf install_release
