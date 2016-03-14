@@ -5,6 +5,16 @@ derived measures.
 
 # Examples
 
+    $ confusion_matrix -h
+    usage:
+        confusion_matrix [options]
+
+    options:
+        --help|-h
+        --verbose|-v
+        --class-number|-c <arg>
+        --input-filename|-f <arg>
+
     $ confusion_matrix
     0 0
     0 1
@@ -46,7 +56,7 @@ derived measures.
     F1 0.727273
     MCC 0.408248
 
-    $ confusion_matrix -c 1 < data.txt
+    $ confusion_matrix -c 1 data.txt
     true_positives 1
     true_negatives 6
     false_positives 1
@@ -58,11 +68,9 @@ derived measures.
     MCC 0.218218
 
     $ confusion_matrix -c 3 -v < data.txt
-    help    0
-    verbose 1
     class_number    3
     input_filename ''
-    Reading stdin
+    reading stdin
     10 conditions read
     true_positives 4
     true_negatives 3
