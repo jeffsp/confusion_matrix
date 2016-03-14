@@ -67,6 +67,9 @@ cmd_line_args get_args (int argc, char **argv)
             case 'f': args.input_filename = optarg; break;
         }
     }
+    if (optind != argc)
+        throw runtime_error ("Unknown extra arguments");
+
     return args;
 }
 
@@ -85,19 +88,21 @@ int main (int argc, char **argv)
             clog << "help\t" << args.help << endl;
             clog << "verbose\t" << args.verbose << endl;
             clog << "class_number\t" << args.class_number << endl;
-            clog << "input_filename\t" << args.input_filename << endl;
+            clog << "input_filename\t'" << args.input_filename << "'" << endl;
         }
 
         conditions conditions;
 
         if (args.input_filename.empty ())
         {
-            clog << "Reading stdin" << endl;
+            if (args.verbose)
+                clog << "Reading stdin" << endl;
             conditions = read_conditions (cin);
         }
         else
         {
-            clog << "Opening " << args.input_filename << endl;
+            if (args.verbose)
+                clog << "Opening " << args.input_filename << endl;
             ifstream ifs (args.input_filename);
             if (!ifs)
                 throw runtime_error ("Could not open file for reading");
@@ -109,10 +114,29 @@ int main (int argc, char **argv)
 
         confusion_matrix cm = get_confusion_matrix (conditions, args.class_number);
 
+        cout << "true_positives " << cm.true_positives () << std::endl;
+        cout << "true_negatives " << cm.true_negatives () << std::endl;
+        cout << "false_positives " << cm.false_positives () << std::endl;
+        cout << "false_negatives " << cm.false_negatives () << std::endl;
+        cout << "recall " << cm.recall () << std::endl;
+        cout << "precision " << cm.precision () << std::endl;
+        cout << "accuracy " << cm.accuracy () << std::endl;
+        cout << "F1 " << cm.F1 () << std::endl;
+        cout << "MCC " << cm.MCC () << std::endl;
         if (args.verbose)
-            clog << cm;
-
-        cout << cm.F1 () << endl;
+        {
+            cout << "sensitivity " << cm.sensitivity () << std::endl;
+            cout << "true_positive_rate " << cm.true_positive_rate () << std::endl;
+            cout << "specificity " << cm.specificity () << std::endl;
+            cout << "true_negative_rate " << cm.true_negative_rate () << std::endl;
+            cout << "positive_predictive_value " << cm.positive_predictive_value () << std::endl;
+            cout << "negative_predictive_value " << cm.negative_predictive_value () << std::endl;
+            cout << "fallout " << cm.fallout () << std::endl;
+            cout << "false_positive_rate " << cm.false_positive_rate () << std::endl;
+            cout << "false_discovery_rate " << cm.false_discovery_rate () << std::endl;
+            cout << "miss_rate " << cm.miss_rate () << std::endl;
+            cout << "false_negative_rate " << cm.false_negative_rate () << std::endl;
+        }
 
         return 0;
     }

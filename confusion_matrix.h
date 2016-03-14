@@ -68,22 +68,6 @@ class confusion_matrix
         s << "true_negatives " << cm.true_negatives () << std::endl;
         s << "false_positives " << cm.false_positives () << std::endl;
         s << "false_negatives " << cm.false_negatives () << std::endl;
-        s << "recall " << cm.recall () << std::endl;
-        s << "sensitivity " << cm.sensitivity () << std::endl;
-        s << "true_positive_rate " << cm.true_positive_rate () << std::endl;
-        s << "specificity " << cm.specificity () << std::endl;
-        s << "true_negative_rate " << cm.true_negative_rate () << std::endl;
-        s << "precision " << cm.precision () << std::endl;
-        s << "positive_predictive_value " << cm.positive_predictive_value () << std::endl;
-        s << "negative_predictive_value " << cm.negative_predictive_value () << std::endl;
-        s << "fallout " << cm.fallout () << std::endl;
-        s << "false_positive_rate " << cm.false_positive_rate () << std::endl;
-        s << "false_discovery_rate " << cm.false_discovery_rate () << std::endl;
-        s << "miss_rate " << cm.miss_rate () << std::endl;
-        s << "false_negative_rate " << cm.false_negative_rate () << std::endl;
-        s << "accuracy " << cm.accuracy () << std::endl;
-        s << "F1 " << cm.F1 () << std::endl;
-        s << "MCC " << cm.MCC () << std::endl;
         return s;
     }
 
